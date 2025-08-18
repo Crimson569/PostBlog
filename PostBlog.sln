@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostService", "PostService", "{17105C06-19A4-44AC-AFBB-45A99C0E3F9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService", "{F4AAF1CB-425E-4612-8709-D1EFA3F50F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Domain", "AuthService.Domain\AuthService.Domain.csproj", "{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F} = {F4AAF1CB-425E-4612-8709-D1EFA3F50F33}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
