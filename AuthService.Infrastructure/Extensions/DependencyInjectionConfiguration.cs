@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthService.Infrastructure.Extentions;
+namespace AuthService.Infrastructure.Extensions;
 
 public static class DependencyInjectionConfiguration
 {
