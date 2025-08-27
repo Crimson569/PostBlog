@@ -10,15 +10,17 @@ namespace AuthService.Application.Services;
 
 public class UserService : IUserService
 {
+    private readonly IJwtProvider _jwtProvider;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
+    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
+        _jwtProvider = jwtProvider;
     }
 
     public async Task<List<UserDto>> GetAllUsers(CancellationToken cancellationToken)
