@@ -1,7 +1,23 @@
 ﻿services:
   authservice.api:
-    image: authservice.api
+    image: authservice_api
     build:
       context: .
       dockerfile: AuthService.Api/Dockerfile
+    depends_on:
+      - postgres
 
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: authservice
+      POSTGRES_USER: postblog
+      POSTGRES_PASSWORD: postblogpass
+    ports:
+      - "5439:5439"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
