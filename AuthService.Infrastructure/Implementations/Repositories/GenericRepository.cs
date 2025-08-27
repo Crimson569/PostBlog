@@ -5,9 +5,9 @@ namespace AuthService.Infrastructure.Implementations.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T>  where T: class
 {
-    private readonly DbContext _dbContext;
+    private readonly AuthServiceDbContext _dbContext;
 
-    public GenericRepository(DbContext dbContext)
+    public GenericRepository(AuthServiceDbContext dbContext)
     {
         _dbContext = dbContext;
     }
