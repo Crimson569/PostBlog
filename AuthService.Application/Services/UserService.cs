@@ -57,6 +57,9 @@ public class UserService : IUserService
         {
             throw new Exception("Invalid password");
         }
+        
+        var token = _jwtProvider.GenerateToken(user);
+        return token;
     }
 
     public async Task UpdateUser(UserUpdateDto userDto, CancellationToken cancellationToken)
