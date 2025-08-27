@@ -10,6 +10,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Infrastructure", "AuthService.Infrastructure\AuthService.Infrastructure.csproj", "{0CE4CEBA-B61E-4EFB-A2C1-356409C48D2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Api", "AuthService.Api\AuthService.Api.csproj", "{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3892270F-AD2E-4D41-AB27-E8F42870AF35}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +26,7 @@ Global
 		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F} = {F4AAF1CB-425E-4612-8709-D1EFA3F50F33}
 		{2C34FC57-D58F-4099-B404-83282C9A4EF4} = {F4AAF1CB-425E-4612-8709-D1EFA3F50F33}
 		{0CE4CEBA-B61E-4EFB-A2C1-356409C48D2C} = {F4AAF1CB-425E-4612-8709-D1EFA3F50F33}
+		{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4} = {F4AAF1CB-425E-4612-8709-D1EFA3F50F33}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,5 +41,9 @@ Global
 		{0CE4CEBA-B61E-4EFB-A2C1-356409C48D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CE4CEBA-B61E-4EFB-A2C1-356409C48D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CE4CEBA-B61E-4EFB-A2C1-356409C48D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E219BE58-E8C7-4CE5-B1BD-7B752EC481E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
