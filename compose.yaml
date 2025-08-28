@@ -1,13 +1,7 @@
-﻿services:
-  authservice.api:
-    image: authservice_api
-    build:
-      context: .
-      dockerfile: AuthService.Api/Dockerfile
-    depends_on:
-      - postgres
+﻿version: "3.9"
 
-  postgres:
+services:
+  postgres_auth:
     image: postgres:latest
     restart: always
     environment:
@@ -15,9 +9,31 @@
       POSTGRES_USER: postblog
       POSTGRES_PASSWORD: postblogpass
     ports:
-      - "5439:5439"
+      - "5439:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  authservice-migrator:
+    build:
+      context: .
+      dockerfile: AuthService.Migrator/Dockerfile
+    depends_on:
+      - postgres_auth
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
+    restart: "no" # мигратор выполняет миграции один раз и завершает работу
+
+  authservice-api:
+    build:
+      context: .
+      dockerfile: AuthService.Api/Dockerfile
+    depends_on:
+      - postgres_auth
+      - authservice-migrator
+    ports:
+      - "5050:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
 
 volumes:
   db_data:

@@ -11,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 
+
+builder.Services.AddControllers();
 var app = builder.Build();
 
 app.MapControllers();
