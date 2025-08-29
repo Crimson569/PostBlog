@@ -1,6 +1,8 @@
+using AuthService.Api.Extensions;
 using AuthService.Application.Extensions;
 using AuthService.Infrastructure.Configurations.Auth;
 using AuthService.Infrastructure.Extensions;
+using Microsoft.AspNetCore.CookiePolicy;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
+
+builder.Services.AddApiAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
 var app = builder.Build();
@@ -27,5 +31,16 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
+
+app.UseAuthorization();
+
+app.UseAuthorization();
 
 app.Run();

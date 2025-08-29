@@ -1,5 +1,6 @@
 using AuthService.Application.Dto;
 using AuthService.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.Api.Controllers;
@@ -15,6 +16,7 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
+    [Authorize]
     [HttpGet]
     [Route("users")]
     public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken)
@@ -22,6 +24,7 @@ public class UserController : ControllerBase
         return Ok(await _userService.GetAllUsers(cancellationToken));
     }
 
+    [Authorize]
     [HttpGet]
     [Route("user/{id}")]
     public async Task<ActionResult> GetUserById(Guid id, CancellationToken cancellationToken)
@@ -41,10 +44,14 @@ public class UserController : ControllerBase
     [Route("user/login")]
     public async Task<ActionResult> Login([FromBody] UserLoginDto userDto, CancellationToken cancellationToken)
     {
-        var result = await _userService.LoginUser(userDto, cancellationToken);
-        return Ok(result);
+        var token = await _userService.LoginUser(userDto, cancellationToken);
+
+        HttpContext.Response.Cookies.Append("tasty-cookies", token);
+        
+        return Ok();
     }
  
+    [Authorize]
     [HttpPut]
     [Route("user")]
     public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto user, CancellationToken cancellationToken)
@@ -53,6 +60,7 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [Authorize]
     [HttpDelete]
     [Route("user/{id}")]
     public async Task<ActionResult> DeleteUser(Guid id, CancellationToken cancellationToken)
