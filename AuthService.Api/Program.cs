@@ -1,4 +1,5 @@
 using AuthService.Application.Extensions;
+using AuthService.Infrastructure.Configurations.Auth;
 using AuthService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 builder.Services.AddControllers();
 var app = builder.Build();

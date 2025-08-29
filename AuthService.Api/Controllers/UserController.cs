@@ -37,6 +37,14 @@ public class UserController : ControllerBase
         return Created();
     }
 
+    [HttpPost]
+    [Route("user/login")]
+    public async Task<ActionResult> Login([FromBody] UserLoginDto userDto, CancellationToken cancellationToken)
+    {
+        var result = await _userService.LoginUser(userDto, cancellationToken);
+        return Ok(result);
+    }
+ 
     [HttpPut]
     [Route("user")]
     public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto user, CancellationToken cancellationToken)

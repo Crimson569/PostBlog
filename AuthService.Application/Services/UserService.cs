@@ -40,6 +40,7 @@ public class UserService : IUserService
         var user = new User(userDto.UserName, hashedPassword, UserRole.Reader);
         
         await _userRepository.CreateAsync(user, cancellationToken);
+        await _userRepository.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<string> LoginUser(UserLoginDto userDto, CancellationToken cancellationToken)
