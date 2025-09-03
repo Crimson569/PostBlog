@@ -3,6 +3,7 @@ using AuthService.Application.Extensions;
 using AuthService.Infrastructure.Configurations.Auth;
 using AuthService.Infrastructure.Extensions;
 using Microsoft.AspNetCore.CookiePolicy;
+using SupportService.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddApiAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.MapControllers();
 

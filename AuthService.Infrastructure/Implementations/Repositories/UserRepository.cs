@@ -19,4 +19,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .FirstOrDefaultAsync(u => EF.Functions.ILike(u.UserName, username), cancellationToken);
 
     }
+
+    public async Task<bool> FindUserByUsername(string username, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.UserName == username, cancellationToken);
+    }
 }

@@ -37,6 +37,13 @@ public class UserService : IUserService
 
     public async Task CreateUser(UserCreateDto userDto, CancellationToken cancellationToken)
     {
+        var userExists = await _userRepository.FindUserByUsername(userDto.UserName, cancellationToken);
+
+        if (userExists)
+        {
+            throw new UserAlreadyExistsException(ApplicationExceptionMessages.UserAlreadyExistsWithUsername(userDto.UserName));
+        }
+        
         var hashedPassword = _passwordHasher.Generate(userDto.Password);
         
         var user = new User(userDto.UserName, hashedPassword, UserRole.Reader);
