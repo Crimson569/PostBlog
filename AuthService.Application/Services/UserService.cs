@@ -32,7 +32,14 @@ public class UserService : IUserService
 
     public async Task<UserDto> GetUserById(Guid id, CancellationToken cancellationToken)
     {
-        return _mapper.Map<UserDto>(await _userRepository.GetByIdAsync(id, cancellationToken));
+        var user = _mapper.Map<UserDto>(await _userRepository.GetByIdAsync(id, cancellationToken));
+
+        if (user == null)
+        {
+            throw new UserNotFoundException(ApplicationExceptionMessages.UserNotFoundWithId(id));
+        }
+        
+        return user;
     }
 
     public async Task CreateUser(UserCreateDto userDto, CancellationToken cancellationToken)
@@ -65,7 +72,7 @@ public class UserService : IUserService
 
         if (!result)
         {
-            throw new Exception("Invalid password");
+            throw new WrongPasswordException(ApplicationExceptionMessages.WrongPassword);
         }
         
         var token = _jwtProvider.GenerateToken(user);
