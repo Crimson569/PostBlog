@@ -1,7 +1,9 @@
 using AuthService.Application.Dto;
+using AuthService.Application.Exceptions;
 using AuthService.Application.Interfaces.Auth;
 using AuthService.Application.Interfaces.Repositories;
 using AuthService.Application.Interfaces.Services;
+using AuthService.Application.Primitives;
 using AuthService.Domain.Entities;
 using AuthService.Domain.Enums;
 using AutoMapper;
@@ -49,7 +51,7 @@ public class UserService : IUserService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new UserNotFoundException(ApplicationExceptionMessages.UserNotFoundWithUsername(userDto.UserName));
         }
         
         var result = _passwordHasher.Verify(userDto.Password, user.PasswordHash);
@@ -69,7 +71,7 @@ public class UserService : IUserService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new UserNotFoundException(ApplicationExceptionMessages.UserNotFoundWithId(userDto.Id));
         }
         
         _mapper.Map(userDto, user);
@@ -84,7 +86,7 @@ public class UserService : IUserService
 
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new UserNotFoundException(ApplicationExceptionMessages.UserNotFoundWithId(id));
         }
         
         _userRepository.Delete(user);
