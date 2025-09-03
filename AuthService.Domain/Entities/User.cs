@@ -6,12 +6,14 @@ namespace AuthService.Domain.Entities;
 
 public class User : BaseEntity<User>
 {
+    public string PasswordHash { get; private set; }
+    //public string PasswordSalt { get; private set; }
 
-    public User(string userName, string password, UserRole role)
+    public User(string userName, string passwordHash, UserRole role)
     {
         UserName = userName;
-        Password = password;
         Role = role;
+        PasswordHash = passwordHash;
     }
     
     private User()
@@ -43,32 +45,6 @@ public class User : BaseEntity<User>
     }
     
     private string _userName;
-
-    public string Password
-    {
-        get => _password;
-        private set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new DomainValidationException(ExceptionMessages.PasswordEmpty);
-            }
-
-            if (value.Length < Constants.MinPasswordLength)
-            {
-                throw new DomainValidationException(ExceptionMessages.PasswordTooShort, Constants.MinPasswordLength);
-            }
-
-            if (value.Length > Constants.MaxPasswordLength)
-            {
-                throw new DomainValidationException(ExceptionMessages.PasswordTooLong, Constants.MaxPasswordLength);
-            }
-            
-            _password = value;
-        }
-    }
-    
-    private string _password;
 
     public UserRole Role
     {
