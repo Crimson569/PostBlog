@@ -76,4 +76,10 @@ public class Post : BaseEntity<Post>
     }
     
     private Guid _authorId;
+
+    public Post SetAuthorId(Guid authorId)
+    {
+        AuthorId = authorId;
+        return this;
+    }
 }
