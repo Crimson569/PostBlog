@@ -59,6 +59,6 @@ public class PostManager : IPostManager
             throw new Exception("Post not found");
         }
 
-        await _postRepository.DeleteAsync(id, cancellationToken);
+        await _postRepository.DeleteAsync(post, cancellationToken);
     }
 }
