@@ -13,5 +13,7 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         builder.Property(p => p.Title).IsRequired();
         
         builder.Property(p => p.Content).IsRequired();
+
+        builder.Property(p => p.CreateTime).IsRequired();
     }
 }

@@ -6,8 +6,7 @@ namespace PostService.Infrastructure;
 public class PostServiceDbContext : DbContext
 {
     public PostServiceDbContext(DbContextOptions<PostServiceDbContext> options) : base(options)
-    {
-    }
+    {}
     
     public DbSet<Post> Posts { get; set; }
 

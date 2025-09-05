@@ -8,6 +8,11 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["PostService.Api/PostService.Api.csproj", "PostService.Api/"]
+COPY ["PostService.Application/PostService.Application.csproj", "PostService.Application/"]
+COPY ["PostService.Domain/PostService.Domain.csproj", "PostService.Domain/"]
+COPY ["PostService.Infrastructure/PostService.Infrastructure.csproj", "PostService.Infrastructure/"]
+COPY ["AuthService.Domain/AuthService.Domain.csproj", "AuthService.Domain/"]
+COPY ["AuthService.Application/AuthService.Application.csproj", "AuthService.Application/"]
 RUN dotnet restore "PostService.Api/PostService.Api.csproj"
 COPY . .
 WORKDIR "/src/PostService.Api"
