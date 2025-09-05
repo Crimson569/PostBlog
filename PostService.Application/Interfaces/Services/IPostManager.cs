@@ -3,7 +3,7 @@ using PostService.Domain.Entities;
 
 namespace PostService.Application.Interfaces.Services;
 
-public interface IPostService
+public interface IPostManager
 {
     Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);

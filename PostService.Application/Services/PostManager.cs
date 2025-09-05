@@ -6,12 +6,12 @@ using PostService.Domain.Entities;
 
 namespace PostService.Application.Services;
 
-public class PostService : IPostService
+public class PostManager : IPostManager
 {
     private readonly IPostRepository _postRepository;
     private readonly IMapper _mapper;
 
-    public PostService(IPostRepository postRepository, IMapper mapper)
+    public PostManager(IPostRepository postRepository, IMapper mapper)
     {
         _postRepository = postRepository;
         _mapper = mapper;
