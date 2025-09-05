@@ -1,0 +1,64 @@
+using AutoMapper;
+using PostService.Application.Dto;
+using PostService.Application.Interfaces.Repositories;
+using PostService.Application.Interfaces.Services;
+using PostService.Domain.Entities;
+
+namespace PostService.Application.Services;
+
+public class PostService : IPostService
+{
+    private readonly IPostRepository _postRepository;
+    private readonly IMapper _mapper;
+
+    public PostService(IPostRepository postRepository, IMapper mapper)
+    {
+        _postRepository = postRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return _mapper.Map<List<PostDto>>(await _postRepository.GetAllAsync(cancellationToken));
+    }
+
+    public async Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return _mapper.Map<PostDto>(await _postRepository.GetByIdAsync(id, cancellationToken));
+    }
+
+    public async Task CreateAsync(PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
+    {
+        var post = _mapper.Map<Post>(postDto);
+
+        post.SetAuthorId(Guid.NewGuid());
+
+        await _postRepository.CreateAsync(post, cancellationToken);
+    }
+
+    public async Task UpdateAsync(Guid id, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
+    {
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+
+        if (post == null)
+        {
+            throw new Exception("Post not found");
+        }
+
+        post.UpdatePost(postDto.Title, postDto.Content);
+
+        await _postRepository.UpdateAsync(post, cancellationToken);
+    }
+
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+
+        if (post == null)
+        {
+            throw new Exception("Post not found");
+        }
+
+        await _postRepository.DeleteAsync(id, cancellationToken);
+    }
+}

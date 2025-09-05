@@ -1,12 +1,13 @@
 using PostService.Application.Dto;
+using PostService.Domain.Entities;
 
 namespace PostService.Application.Interfaces.Services;
 
 public interface IPostService
 {
-    Task<IList<PostDto>> GetAllAsync(CancellationToken cancellationToken = default);
-    Task<PostDto> GetAsync(int id, CancellationToken cancellationToken = default);
-    Task CreateAsync(PostCreateUpdateDto dto, CancellationToken cancellationToken = default);
-    Task UpdateAsync(PostCreateUpdateDto dto, CancellationToken cancellationToken = default);
-    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task CreateAsync(PostCreateUpdateDto postDto, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Guid id, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default);
+    Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }

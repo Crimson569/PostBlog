@@ -77,6 +77,13 @@ public class Post : BaseEntity<Post>
     
     private Guid _authorId;
 
+    public Post UpdatePost(string title, string content)
+    {
+        Title = title;
+        Content = content;
+        return this;
+    }
+    
     public Post SetAuthorId(Guid authorId)
     {
         AuthorId = authorId;
