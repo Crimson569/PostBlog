@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService.Api", "PostService.Api\PostService.Api.csproj", "{1364A5FF-0B03-4C52-B7FB-58077069EE74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService.Migrator", "PostService.Migrator\PostService.Migrator.csproj", "{806DA65E-F226-4516-88BF-213894F1DB7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,7 @@ Global
 		{AFF6F1C2-19A7-4580-AEFC-3D5DDA8C2A17} = {17105C06-19A4-44AC-AFBB-45A99C0E3F9E}
 		{F3C7E42C-2808-4A26-B92D-6E778B945CB0} = {17105C06-19A4-44AC-AFBB-45A99C0E3F9E}
 		{1364A5FF-0B03-4C52-B7FB-58077069EE74} = {17105C06-19A4-44AC-AFBB-45A99C0E3F9E}
+		{806DA65E-F226-4516-88BF-213894F1DB7F} = {17105C06-19A4-44AC-AFBB-45A99C0E3F9E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -80,5 +83,9 @@ Global
 		{1364A5FF-0B03-4C52-B7FB-58077069EE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1364A5FF-0B03-4C52-B7FB-58077069EE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1364A5FF-0B03-4C52-B7FB-58077069EE74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806DA65E-F226-4516-88BF-213894F1DB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806DA65E-F226-4516-88BF-213894F1DB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806DA65E-F226-4516-88BF-213894F1DB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806DA65E-F226-4516-88BF-213894F1DB7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
