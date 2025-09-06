@@ -48,7 +48,7 @@ public class UserController : ControllerBase
 
         HttpContext.Response.Cookies.Append("tasty-cookies", token);
         
-        return Ok();
+        return Ok(token);
     }
  
     [Authorize]

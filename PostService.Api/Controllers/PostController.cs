@@ -39,7 +39,7 @@ public class PostController : ControllerBase
     public async Task<ActionResult> CreatePostAsync(PostCreateUpdateDto postDto, CancellationToken cancellationToken)
     {
         var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? 
-                     User.FindFirst("sub")?.Value;
+                     User.FindFirst("userId")?.Value;
 
         if (!Guid.TryParse(userIdString, out var userId))
         {
