@@ -1,0 +1,42 @@
+using Microsoft.EntityFrameworkCore;
+using PostService.Application.Interfaces.Repositories;
+
+namespace PostService.Infrastructure.Implementations;
+
+public class GenericRepository<T> : IGenericRepository<T> where T : class
+{
+    private readonly PostServiceDbContext _dbContext;
+
+    public GenericRepository(PostServiceDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>().ToListAsync(cancellationToken);
+    }
+
+    public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>().FindAsync(id, cancellationToken);
+    }
+
+    public async Task CreateAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Set<T>().Update(entity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Set<T>().Remove(entity);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+}
