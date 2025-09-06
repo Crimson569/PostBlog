@@ -1,5 +1,7 @@
+using AuthService.Application.Primitives;
 using AutoMapper;
 using PostService.Application.Dto;
+using PostService.Application.Exceptions;
 using PostService.Application.Interfaces.Repositories;
 using PostService.Application.Interfaces.Services;
 using PostService.Domain.Entities;
@@ -42,7 +44,7 @@ public class PostManager : IPostManager
 
         if (post == null)
         {
-            throw new Exception("Post not found");
+            throw new PostNotFoundException(ApplicationExceptionMessages.PostNotFoundWithId(id));
         }
 
         post.UpdatePost(postDto.Title, postDto.Content);
@@ -56,7 +58,7 @@ public class PostManager : IPostManager
 
         if (post == null)
         {
-            throw new Exception("Post not found");
+            throw new PostNotFoundException(ApplicationExceptionMessages.PostNotFoundWithId(id));
         }
 
         await _postRepository.DeleteAsync(post, cancellationToken);

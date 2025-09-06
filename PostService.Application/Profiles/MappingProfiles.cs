@@ -8,7 +8,7 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<PostDto, Post>();
-        CreateMap<PostCreateUpdateDto, Post>();
+        CreateMap<PostDto, Post>().ReverseMap();
+        CreateMap<PostCreateUpdateDto, Post>().ReverseMap();
     }
 }
