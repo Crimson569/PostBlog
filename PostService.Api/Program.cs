@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using PostService.Api.Middlewares;
 using PostService.Application.Extensions;
 using PostService.Infrastructure.Configurations.Auth;
 using PostService.Infrastructure.Extensions;
@@ -61,6 +62,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

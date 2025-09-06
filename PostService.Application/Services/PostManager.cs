@@ -26,7 +26,14 @@ public class PostManager : IPostManager
 
     public async Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return _mapper.Map<PostDto>(await _postRepository.GetByIdAsync(id, cancellationToken));
+        var post = await _postRepository.GetByIdAsync(id, cancellationToken);
+
+        if (post == null)
+        {
+            throw new PostNotFoundException(ApplicationExceptionMessages.PostNotFoundWithId(id));
+        }
+
+        return _mapper.Map<PostDto>(post);
     }
 
     public async Task CreateAsync(Guid userId, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
