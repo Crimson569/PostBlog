@@ -27,11 +27,11 @@ public class PostManager : IPostManager
         return _mapper.Map<PostDto>(await _postRepository.GetByIdAsync(id, cancellationToken));
     }
 
-    public async Task CreateAsync(PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Guid userId, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
     {
         var post = _mapper.Map<Post>(postDto);
 
-        post.SetAuthorId(Guid.NewGuid());
+        post.SetAuthorId(userId);
 
         await _postRepository.CreateAsync(post, cancellationToken);
     }

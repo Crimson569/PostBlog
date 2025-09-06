@@ -1,9 +1,12 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostService.Application.Dto;
 using PostService.Application.Interfaces.Services;
 
 namespace PostService.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class PostController : ControllerBase
@@ -35,7 +38,15 @@ public class PostController : ControllerBase
     [Route("posts")]
     public async Task<ActionResult> CreatePostAsync(PostCreateUpdateDto postDto, CancellationToken cancellationToken)
     {
-        await _postManager.CreateAsync(postDto, cancellationToken);
+        var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? 
+                     User.FindFirst("sub")?.Value;
+
+        if (!Guid.TryParse(userIdString, out var userId))
+        {
+            return Unauthorized();
+        }
+        
+        await _postManager.CreateAsync(userId, postDto, cancellationToken);
         return Created();
     }
 
