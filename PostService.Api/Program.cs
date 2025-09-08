@@ -1,13 +1,10 @@
-using System.Collections.Immutable;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 using PostService.Api.Extensions;
 using PostService.Api.Middlewares;
 using PostService.Application.Extensions;
-using PostService.Infrastructure.Configurations.Auth;
+using PostService.Infrastructure.Configurations.RabbitMq;
 using PostService.Infrastructure.Extensions;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +14,26 @@ builder.Services.ConfigureApplicationServices();
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
 
 builder.Services.AddApiAuthentication(builder.Configuration);
+
+builder.Services.Configure<RabbitMqSettings>(builder.Configuration.GetSection("RabbitMqSettings"));
+
+builder.Services.AddSingleton<IConnectionFactory>(sp =>
+{
+    var config = sp.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
+    return new ConnectionFactory
+    {
+        HostName = config.HostName,
+        UserName = config.Username,
+        Password = config.Password,
+        VirtualHost = config.VirtualHost
+    };
+});
+
+builder.Services.AddSingleton<IConnection>(sp =>
+{
+    var factory = sp.GetRequiredService<IConnectionFactory>();
+    return factory.CreateConnectionAsync().GetAwaiter().GetResult();
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
