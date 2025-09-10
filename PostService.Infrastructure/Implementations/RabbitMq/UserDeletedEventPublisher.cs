@@ -1,0 +1,36 @@
+using System.Net.Mime;
+using PostService.Application.Dto;
+using PostService.Application.Interfaces.RabbitMq;
+using RabbitMQ.Client;
+
+namespace PostService.Infrastructure.Implementations.RabbitMq;
+
+public class UserDeletedEventPublisher : IUserDeletedEventPublisher
+{
+    private const string ExchangeName = "users-exchange";
+    private const string QueueName = "users-queue";
+    private const string RoutingKey = "users.event.deleted";
+    
+    private readonly IConnection _connection;
+
+    public UserDeletedEventPublisher(IConnection connection)
+    {
+        _connection = connection;
+    }
+
+
+    public async Task PublishAsync(UserDeletedEvent @event, CancellationToken cancellationToken = default)
+    {
+        var channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
+
+        await channel.ExchangeDeclareAsync(ExchangeName, ExchangeType.Direct, cancellationToken: cancellationToken);
+        await channel.QueueDeclareAsync(QueueName, false, false, false, null, cancellationToken: cancellationToken);
+        await channel.QueueBindAsync(QueueName, ExchangeName, RoutingKey, cancellationToken: cancellationToken);
+
+        var message = $"User with Id {@event.Id} was deleted.";
+        var messageBodyBytes = System.Text.Encoding.UTF8.GetBytes(message);
+        var props = new BasicProperties();
+
+        await channel.BasicPublishAsync(ExchangeName, RoutingKey, false, props, messageBodyBytes, cancellationToken);
+    }
+}

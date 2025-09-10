@@ -25,7 +25,8 @@ builder.Services.AddSingleton<IConnectionFactory>(sp =>
         HostName = config.HostName,
         UserName = config.Username,
         Password = config.Password,
-        VirtualHost = config.VirtualHost
+        VirtualHost = config.VirtualHost,
+        ClientProvidedName = "service:authservice"
     };
 });
 
