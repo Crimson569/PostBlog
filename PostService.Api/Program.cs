@@ -41,6 +41,9 @@ builder.Services.AddSingleton<IConnection>(sp =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<RabbitMqSetupService>();
+builder.Services.AddHostedService<RabbitMqSetupHostedService>();
+
 var app = builder.Build();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
