@@ -23,7 +23,7 @@ public class UserDeletedEventPublisher : IUserDeletedEventPublisher
     {
         var channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
 
-        var message = $"User with Id {@event.Id} was deleted.";
+        var message = $"{@event.Id}";
         var messageBodyBytes = System.Text.Encoding.UTF8.GetBytes(message);
         var props = new BasicProperties();
 

@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using PostService.Application.Dto;
 using PostService.Domain.Entities;
 
@@ -10,4 +11,5 @@ public interface IPostManager
     Task CreateAsync(Guid userId, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default);
     Task UpdateAsync(Guid id, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task DeleteByAuthorIdAsync(Guid authorId, CancellationToken cancellationToken = default);
 }

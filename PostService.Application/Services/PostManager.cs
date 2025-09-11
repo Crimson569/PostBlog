@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AuthService.Application.Primitives;
 using AutoMapper;
 using PostService.Application.Dto;
@@ -69,5 +70,15 @@ public class PostManager : IPostManager
         }
 
         await _postRepository.DeleteAsync(post, cancellationToken);
+    }
+
+    public async Task DeleteByAuthorIdAsync(Guid authorId, CancellationToken cancellationToken = default)
+    {
+        var posts = await _postRepository.GetPostsByFilter(post => post.AuthorId == authorId, cancellationToken);
+
+        foreach (var post in posts)
+        {
+            await _postRepository.DeleteAsync(post, cancellationToken);
+        }
     }
 }

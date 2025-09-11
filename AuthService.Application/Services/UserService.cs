@@ -1,12 +1,14 @@
 using AuthService.Application.Dto;
 using AuthService.Application.Exceptions;
 using AuthService.Application.Interfaces.Auth;
+using AuthService.Application.Interfaces.RabbitMq;
 using AuthService.Application.Interfaces.Repositories;
 using AuthService.Application.Interfaces.Services;
 using AuthService.Application.Primitives;
 using AuthService.Domain.Entities;
 using AuthService.Domain.Enums;
 using AutoMapper;
+using PostService.Application.Dto;
 
 namespace AuthService.Application.Services;
 
@@ -16,13 +18,15 @@ public class UserService : IUserService
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IUserDeletedEventPublisher _userDeletedEventPublisher;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, IUserDeletedEventPublisher userDeletedEventPublisher)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
         _jwtProvider = jwtProvider;
+        _userDeletedEventPublisher = userDeletedEventPublisher;
     }
 
     public async Task<List<UserDto>> GetAllUsers(CancellationToken cancellationToken)
@@ -105,5 +109,7 @@ public class UserService : IUserService
         
         _userRepository.Delete(user);
         await _userRepository.SaveChangesAsync(cancellationToken);
+
+        await _userDeletedEventPublisher.PublishAsync(new UserDeletedEvent(id), cancellationToken);
     }
 }
