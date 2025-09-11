@@ -1,6 +1,6 @@
 using RabbitMQ.Client;
 
-namespace PostService.Infrastructure.Configurations.RabbitMq;
+namespace AuthService.Infrastructure.Configurations.RabbitMq;
 
 public class RabbitMqSetupService
 {

@@ -1,11 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PostService.Application.Interfaces.RabbitMq;
 using PostService.Application.Interfaces.Repositories;
-using PostService.Infrastructure.Configurations.Auth;
 using PostService.Infrastructure.Implementations;
-using PostService.Infrastructure.Implementations.RabbitMq;
 
 namespace PostService.Infrastructure.Extensions;
 
@@ -26,7 +23,6 @@ public static class DependencyInjectionConfiguration
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IPostRepository, PostRepository>();
-        services.AddScoped<IUserDeletedEventPublisher, UserDeletedEventPublisher>();
 
         return services;
     }

@@ -1,6 +1,6 @@
 using System.Net.Mime;
+using AuthService.Application.Interfaces.RabbitMq;
 using PostService.Application.Dto;
-using PostService.Application.Interfaces.RabbitMq;
 using RabbitMQ.Client;
 
 namespace PostService.Infrastructure.Implementations.RabbitMq;

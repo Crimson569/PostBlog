@@ -1,6 +1,6 @@
 using PostService.Application.Dto;
 
-namespace PostService.Application.Interfaces.RabbitMq;
+namespace AuthService.Application.Interfaces.RabbitMq;
 
 public interface IUserDeletedEventPublisher
 {

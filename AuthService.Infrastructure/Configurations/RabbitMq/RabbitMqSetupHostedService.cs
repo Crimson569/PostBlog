@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Hosting;
 
-namespace PostService.Infrastructure.Configurations.RabbitMq;
+namespace AuthService.Infrastructure.Configurations.RabbitMq;
 
 public class RabbitMqSetupHostedService : IHostedService
 {

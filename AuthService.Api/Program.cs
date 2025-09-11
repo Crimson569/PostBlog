@@ -40,6 +40,9 @@ builder.Services.AddSingleton<IConnection>(sp =>
     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
 });
 
+builder.Services.AddSingleton<RabbitMqSetupService>();
+builder.Services.AddHostedService<RabbitMqSetupHostedService>();
+
 builder.Services.AddApiAuthentication(builder.Configuration);
 
 builder.Services.AddControllers();
