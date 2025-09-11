@@ -36,6 +36,9 @@ builder.Services.AddSingleton<IConnection>(sp =>
     return factory.CreateConnectionAsync().GetAwaiter().GetResult();
 });
 
+builder.Services.AddSingleton<RabbitMqSetupService>();
+builder.Services.AddHostedService<RabbitMqSetupHostedService>();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
