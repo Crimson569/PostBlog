@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using PostService.Application.Interfaces.Repositories;
 using PostService.Domain.Entities;
@@ -11,5 +12,10 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     public PostRepository(PostServiceDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public async Task<List<Post>> GetPostsByFilterAsync(Expression<Func<Post, bool>> filter, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Posts.Where(filter).ToListAsync(cancellationToken);
     }
 }
