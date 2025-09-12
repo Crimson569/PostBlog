@@ -70,4 +70,14 @@ public class PostManager : IPostManager
 
         await _postRepository.DeleteAsync(post, cancellationToken);
     }
+
+    public async Task DeleteByAuthorIdAsync(Guid authorId, CancellationToken cancellationToken = default)
+    {
+        var posts = await _postRepository.GetPostsByFilterAsync(post => post.AuthorId == authorId, cancellationToken);
+
+        foreach (var post in posts)
+        {
+            await _postRepository.DeleteAsync(post, cancellationToken);
+        }
+    }
 }

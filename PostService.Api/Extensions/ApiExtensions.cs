@@ -1,8 +1,12 @@
 using System.Text;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PostService.Infrastructure.Configurations.Auth;
+using PostService.Infrastructure.Configurations.RabbitMq;
+using PostService.Infrastructure.Implementations.Consumers;
 
 namespace PostService.Api.Extensions;
 
@@ -52,6 +56,38 @@ public static class ApiExtensions
         });
 
         services.AddAuthorization();
+        
+        return services;
+    }
+
+    public static IServiceCollection AddApiMassTransit(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<RabbitMqOptions>(configuration.GetSection("RabbitMqOptions"));
+
+        services.AddMassTransit(x =>
+        {
+            x.AddConsumer<UserDeletedEventConsumer>();
+            
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                var options = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+                
+                cfg.Host(options.HostName, c =>
+                {
+                    c.Username(options.Username);
+                    c.Password(options.Password);
+                });
+                
+                cfg.ReceiveEndpoint("UserDeletedEventQueue", e =>
+                {
+                    e.ConfigureConsumer<UserDeletedEventConsumer>(context);
+                });
+                
+                cfg.ClearSerialization();
+                cfg.AddRawJsonSerializer();
+                cfg.ConfigureEndpoints(context);
+            });
+        });
         
         return services;
     }

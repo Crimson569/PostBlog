@@ -34,6 +34,10 @@ services:
       - "5050:8080"
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
   
   postgres_post:
     image: postgres:latest
@@ -68,7 +72,25 @@ services:
       - "5051:8080"
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres_post;Port=5432;Database=postservice;Username=postblog;Password=postblogpass"
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__UserName: guest
+      RabbitMQ__Password: guest
+      
+  rabbitmq:
+    image: rabbitmq:3-management 
+    hostname: rabbitmq 
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest 
+      RABBITMQ_DEFAULT_PASS: guest 
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 volumes:
   db_auth_data:
   db_post_data:
+  rabbitmq_data:
+
