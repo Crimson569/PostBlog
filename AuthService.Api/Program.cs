@@ -18,6 +18,7 @@ builder.Services.ConfigureApplicationServices();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 builder.Services.AddApiAuthentication(builder.Configuration);
+builder.Services.AddApiMassTransit(builder.Configuration);
 
 builder.Services.AddControllers();
 var app = builder.Build();

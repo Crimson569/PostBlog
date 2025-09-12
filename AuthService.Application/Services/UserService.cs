@@ -7,6 +7,8 @@ using AuthService.Application.Primitives;
 using AuthService.Domain.Entities;
 using AuthService.Domain.Enums;
 using AutoMapper;
+using MassTransit;
+using Shared.Events;
 
 namespace AuthService.Application.Services;
 
@@ -16,13 +18,15 @@ public class UserService : IUserService
     private readonly IPasswordHasher _passwordHasher;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, IPublishEndpoint publishEndpoint)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
         _jwtProvider = jwtProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<List<UserDto>> GetAllUsers(CancellationToken cancellationToken)
@@ -105,5 +109,11 @@ public class UserService : IUserService
         
         _userRepository.Delete(user);
         await _userRepository.SaveChangesAsync(cancellationToken);
+
+        await _publishEndpoint.Publish<UserDeletedEvent>(new UserDeletedEvent
+        {
+            Id = user.Id,
+            UserName = user.UserName
+        }, cancellationToken);
     }
 }

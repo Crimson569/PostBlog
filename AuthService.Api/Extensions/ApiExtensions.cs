@@ -1,5 +1,7 @@
 using System.Text;
 using AuthService.Infrastructure.Configurations.Auth;
+using AuthService.Infrastructure.Configurations.RabbitMq;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +38,27 @@ public static class ApiExtensions
             });
 
         services.AddAuthorization();
+    }
+
+    public static IServiceCollection AddApiMassTransit(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<RabbitMqOptions>(configuration.GetSection("RabbitMqOptions"));
+
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                var options = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
+                
+                cfg.Host(options.HostName, c =>
+                {
+                    c.Username(options.Username);
+                    c.Password(options.Password);
+                });
+            });
+        });
+        
+        return services;
     }
 
 }
