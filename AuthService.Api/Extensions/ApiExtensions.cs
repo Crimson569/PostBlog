@@ -55,6 +55,9 @@ public static class ApiExtensions
                     c.Username(options.Username);
                     c.Password(options.Password);
                 });
+
+                cfg.ClearSerialization();
+                cfg.AddRawJsonSerializer();
             });
         });
         

@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["AuthService.Api/AuthService.Api.csproj", "AuthService.Api/"]
 COPY ["AuthService.Application/AuthService.Application.csproj", "AuthService.Application/"]
 COPY ["AuthService.Domain/AuthService.Domain.csproj", "AuthService.Domain/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
 COPY ["AuthService.Infrastructure/AuthService.Infrastructure.csproj", "AuthService.Infrastructure/"]
 RUN dotnet restore "AuthService.Api/AuthService.Api.csproj"
 COPY . .

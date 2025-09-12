@@ -11,8 +11,9 @@ COPY ["PostService.Api/PostService.Api.csproj", "PostService.Api/"]
 COPY ["PostService.Application/PostService.Application.csproj", "PostService.Application/"]
 COPY ["PostService.Domain/PostService.Domain.csproj", "PostService.Domain/"]
 COPY ["PostService.Infrastructure/PostService.Infrastructure.csproj", "PostService.Infrastructure/"]
-COPY ["AuthService.Domain/AuthService.Domain.csproj", "AuthService.Domain/"]
 COPY ["AuthService.Application/AuthService.Application.csproj", "AuthService.Application/"]
+COPY ["AuthService.Domain/AuthService.Domain.csproj", "AuthService.Domain/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
 RUN dotnet restore "PostService.Api/PostService.Api.csproj"
 COPY . .
 WORKDIR "/src/PostService.Api"
