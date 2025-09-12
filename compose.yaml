@@ -30,10 +30,13 @@ services:
     depends_on:
       - postgres_auth
       - authservice-migrator
+      - rabbitmq-post
     ports:
       - "5050:8080"
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
+    networks:
+      - rabbitmq_network
   
   postgres_post:
     image: postgres:latest
@@ -64,11 +67,34 @@ services:
     depends_on:
       - postgres_auth
       - postservice-migrator
+      - rabbitmq-post
     ports:
       - "5051:8080"
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres_post;Port=5432;Database=postservice;Username=postblog;Password=postblogpass"
+    networks:
+      - rabbitmq_network
+      
+  rabbitmq-post:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # порт для клиентов (AMQP)
+      - "15672:15672" # порт для веб-менеджмента
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_network
 
 volumes:
   db_auth_data:
   db_post_data:
+  rabbitmq_data:
+    
+
+networks:
+  rabbitmq_network:
+    driver: bridge
