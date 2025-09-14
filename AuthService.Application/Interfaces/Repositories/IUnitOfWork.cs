@@ -1,6 +1,6 @@
 namespace AuthService.Application.Interfaces.Repositories;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
     IUserRepository Users { get; } 
     
