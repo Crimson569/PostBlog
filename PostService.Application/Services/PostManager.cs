@@ -12,11 +12,13 @@ public class PostManager : IPostManager
 {
     private readonly IPostRepository _postRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PostManager(IPostRepository postRepository, IMapper mapper)
+    public PostManager(IPostRepository postRepository, IMapper mapper, IUnitOfWork unitOfWork)
     {
         _postRepository = postRepository;
         _mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -43,6 +45,7 @@ public class PostManager : IPostManager
         post.SetAuthorId(userId);
 
         await _postRepository.CreateAsync(post, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task UpdateAsync(Guid id, PostCreateUpdateDto postDto, CancellationToken cancellationToken = default)
@@ -57,6 +60,7 @@ public class PostManager : IPostManager
         post.UpdatePost(postDto.Title, postDto.Content);
 
         await _postRepository.UpdateAsync(post, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
@@ -69,6 +73,7 @@ public class PostManager : IPostManager
         }
 
         await _postRepository.DeleteAsync(post, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteByAuthorIdAsync(Guid authorId, CancellationToken cancellationToken = default)
@@ -79,5 +84,7 @@ public class PostManager : IPostManager
         {
             await _postRepository.DeleteAsync(post, cancellationToken);
         }
+        
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
