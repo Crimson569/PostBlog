@@ -17,7 +17,7 @@ public static class DependencyInjectionConfiguration
         services.AddDbContext<AuthServiceDbContext>((serviceProvider, options) =>
         {
             var config = serviceProvider.GetRequiredService<IConfiguration>();
-            var connectionString =  config.GetConnectionString("DefaultConnection");
+            var connectionString = config.GetConnectionString("DefaultConnection");
             
             options.UseNpgsql(connectionString, npgsqlOptions =>
             {
@@ -27,6 +27,7 @@ public static class DependencyInjectionConfiguration
         });
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IJwtProvider, JwtProvider>();

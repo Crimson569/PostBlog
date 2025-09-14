@@ -19,14 +19,16 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, IPublishEndpoint publishEndpoint)
+    public UserService(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, IPublishEndpoint publishEndpoint, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
         _jwtProvider = jwtProvider;
         _publishEndpoint = publishEndpoint;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<List<UserDto>> GetAllUsers(CancellationToken cancellationToken)
@@ -60,7 +62,7 @@ public class UserService : IUserService
         var user = new User(userDto.UserName, hashedPassword, UserRole.Reader);
         
         await _userRepository.CreateAsync(user, cancellationToken);
-        await _userRepository.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<string> LoginUser(UserLoginDto userDto, CancellationToken cancellationToken)
@@ -95,7 +97,7 @@ public class UserService : IUserService
         _mapper.Map(userDto, user);
         
         _userRepository.Update(user);
-        await _userRepository.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteUser(Guid id, CancellationToken cancellationToken)
@@ -108,7 +110,7 @@ public class UserService : IUserService
         }
         
         _userRepository.Delete(user);
-        await _userRepository.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         await _publishEndpoint.Publish<UserDeletedEvent>(new UserDeletedEvent
         {
