@@ -5,13 +5,15 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: authservice
-      POSTGRES_USER: postblog
-      POSTGRES_PASSWORD: postblogpass
+      - POSTGRES_DB=${POSTGRES_AUTH_DB}
+      - POSTGRES_USER=${POSTGRES_AUTH_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_AUTH_PASSWORD}
     ports:
-      - "5439:5432"
+      - "${POSTGRES_AUTH_PORT}:${POSTGRES_AUTH_INTERNAL_PORT}"
     volumes:
       - db_auth_data:/var/lib/postgresql/data
+    env_file:
+      - .env
 
   authservice-migrator:
     build:
@@ -20,8 +22,10 @@ services:
     depends_on:
       - postgres_auth
     environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
+      - ConnectionStrings__DefaultConnection=${AUTHSERVICE_DEFAULT_CONNECTIONSTRING}
     restart: "no" # мигратор выполняет миграции один раз и завершает работу
+    env_file:
+      - .env
 
   authservice-api:
     build:
@@ -31,25 +35,29 @@ services:
       - postgres_auth
       - authservice-migrator
     ports:
-      - "5050:8080"
+      - "${AUTHSERVICE_PORT}:${AUTHSERVICE_INTERNAL_PORT}"
     environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres_auth;Port=5432;Database=authservice;Username=postblog;Password=postblogpass"
-      RabbitMQ__HostName: rabbitmq
-      RabbitMQ__Port: 5672
-      RabbitMQ__UserName: guest
-      RabbitMQ__Password: guest
+      - ConnectionStrings__DefaultConnection=${AUTHSERVICE_DEFAULT_CONNECTIONSTRING}
+      - RabbitMQ__HostName=${RABBITMQ_HOSTNAME}
+      - RabbitMQ__Port=${RABBITMQ_PORT}
+      - RabbitMQ__UserName=${RABBITMQ_USERNAME}
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+    env_file:
+      - .env
   
   postgres_post:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_DB: postservice
-      POSTGRES_USER: postblog
-      POSTGRES_PASSWORD: postblogpass
+      - POSTGRES_DB=${POSTGRES_POST_DB}
+      - POSTGRES_USER=${POSTGRES_POST_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_POST_PASSWORD}
     ports:
-      - "5433:5432"
+      - "${POSTGRES_POST_PORT}:${POSTGRES_POST_INTERNAL_PORT}"
     volumes:
       - db_post_data:/var/lib/postgresql/data
+    env_file:
+      - .env
   
   postservice-migrator:
     build:
@@ -58,8 +66,10 @@ services:
     depends_on:
       - postgres_post
     environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres_post;Port=5432;Database=postservice;Username=postblog;Password=postblogpass"
+      - ConnectionStrings__DefaultConnection=${POSTSERVICE_DEFAULT_CONNECTIONSTRING}
     restart: "no" # выполняется один раз и завершается
+    env_file:
+      - .env
     
   postservice-api:
     build:
@@ -69,25 +79,29 @@ services:
       - postgres_auth
       - postservice-migrator
     ports:
-      - "5051:8080"
+      - "${POSTSERVICE_PORT}:${POSTSERVICE_INTERNAL_PORT}"
     environment:
-      ConnectionStrings__DefaultConnection: "Host=postgres_post;Port=5432;Database=postservice;Username=postblog;Password=postblogpass"
-      RabbitMQ__HostName: rabbitmq
-      RabbitMQ__Port: 5672
-      RabbitMQ__UserName: guest
-      RabbitMQ__Password: guest
+      - ConnectionStrings__DefaultConnection=${POSTSERVICE_DEFAULT_CONNECTIONSTRING}
+      - RabbitMQ__HostName=${RABBITMQ_HOSTNAME}
+      - RabbitMQ__Port=${RABBITMQ_PORT}
+      - RabbitMQ__UserName=${RABBITMQ_USERNAME}
+      - RabbitMQ__Password=${RABBITMQ_PASSWORD}
+    env_file:
+      - .env
       
   rabbitmq:
     image: rabbitmq:3-management 
     hostname: rabbitmq 
     ports:
-      - "5672:5672" 
-      - "15672:15672"
+      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}" 
+      - "${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}"
     environment:
-      RABBITMQ_DEFAULT_USER: guest 
-      RABBITMQ_DEFAULT_PASS: guest 
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    env_file:
+      - .env
 
 volumes:
   db_auth_data:
