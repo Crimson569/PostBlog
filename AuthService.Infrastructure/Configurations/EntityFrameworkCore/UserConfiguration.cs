@@ -18,6 +18,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash)
             .IsRequired();
 
+        builder.Property(u => u.Email)
+            .IsRequired();
+
         builder.Property(u => u.Role)
             .HasColumnType("user_role")
             .IsRequired();

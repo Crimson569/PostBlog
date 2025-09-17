@@ -59,7 +59,7 @@ public class UserService : IUserService
         
         var hashedPassword = _passwordHasher.Generate(userDto.Password);
         
-        var user = new User(userDto.UserName, hashedPassword, UserRole.Reader);
+        var user = new User(userDto.UserName, hashedPassword, userDto.Email, UserRole.Reader);
         
         await _userRepository.CreateAsync(user, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

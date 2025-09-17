@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace AuthService.Domain.Primitives;
 
 public class Constants
@@ -6,4 +8,5 @@ public class Constants
     public const int MinUserNameLength = 3;
     public const int MaxPasswordLength = 50;
     public const int MinPasswordLength = 6;
+    public const string EmailPattern = @"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/";
 }

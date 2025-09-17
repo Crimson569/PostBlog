@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using AuthService.Domain.Enums;
 using AuthService.Domain.Exceptions;
 using AuthService.Domain.Primitives;
@@ -9,11 +10,12 @@ public class User : BaseEntity<User>
     public string PasswordHash { get; private set; }
     //public string PasswordSalt { get; private set; }
 
-    public User(string userName, string passwordHash, UserRole role)
+    public User(string userName, string passwordHash, string email, UserRole role)
     {
         UserName = userName;
         Role = role;
         PasswordHash = passwordHash;
+        Email = email;
     }
     
     private User()
@@ -45,6 +47,22 @@ public class User : BaseEntity<User>
     }
     
     private string _userName;
+
+    public string Email
+    {
+        get => _email;
+        private set
+        {
+            if (!Regex.IsMatch(value, Constants.EmailPattern))
+            {
+                throw new DomainValidationException("Email не валиден");
+            }
+            
+            _email = value;
+        }
+    }
+
+    private string _email;
 
     public UserRole Role
     {
