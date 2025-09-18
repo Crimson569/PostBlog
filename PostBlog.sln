@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Domain"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Application", "NotificationService.Application\NotificationService.Application.csproj", "{A0983C70-3C42-4D22-9B4C-394814FB632F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService.Infrastructure", "NotificationService.Infrastructure\NotificationService.Infrastructure.csproj", "{5FBE936E-20EB-41D4-B618-F258300BE890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,7 @@ Global
 		{806DA65E-F226-4516-88BF-213894F1DB7F} = {17105C06-19A4-44AC-AFBB-45A99C0E3F9E}
 		{F7EB9159-C514-4599-B312-E3B613A4920F} = {68B75AF4-4CB1-4390-9B4C-DCB7C9B69CB3}
 		{A0983C70-3C42-4D22-9B4C-394814FB632F} = {68B75AF4-4CB1-4390-9B4C-DCB7C9B69CB3}
+		{5FBE936E-20EB-41D4-B618-F258300BE890} = {68B75AF4-4CB1-4390-9B4C-DCB7C9B69CB3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E583D358-B8D0-4181-BB33-5F0D8A1FDB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -110,5 +113,9 @@ Global
 		{A0983C70-3C42-4D22-9B4C-394814FB632F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0983C70-3C42-4D22-9B4C-394814FB632F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0983C70-3C42-4D22-9B4C-394814FB632F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FBE936E-20EB-41D4-B618-F258300BE890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FBE936E-20EB-41D4-B618-F258300BE890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FBE936E-20EB-41D4-B618-F258300BE890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FBE936E-20EB-41D4-B618-F258300BE890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
