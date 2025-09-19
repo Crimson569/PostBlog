@@ -26,6 +26,11 @@ public class PostManager : IPostManager
         return _mapper.Map<List<PostDto>>(await _postRepository.GetAllAsync(cancellationToken));
     }
 
+    public async Task<List<PostDto>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        return _mapper.Map<List<PostDto>>(await _postRepository.GetPageAsync(page, pageSize, cancellationToken));
+    }
+
     public async Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var post = await _postRepository.GetByIdAsync(id, cancellationToken);

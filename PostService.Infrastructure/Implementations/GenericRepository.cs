@@ -17,6 +17,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbContext.Set<T>().ToListAsync(cancellationToken);
     }
 
+    public async Task<List<T>> GetPageAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Set<T>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+    }
+
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Set<T>().FindAsync(id, cancellationToken);
