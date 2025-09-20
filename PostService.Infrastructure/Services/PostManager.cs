@@ -30,7 +30,7 @@ public class PostManager : IPostManager
     public async Task<PagedList<PostDto>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var posts = _mapper.Map<List<PostDto>>(await _postRepository.GetAllAsync(cancellationToken));
-        return PagedList<PostDto>.CreateAsync(posts, page, pageSize);
+        return PagedList<PostDto>.Create(posts, page, pageSize);
     }
 
     public async Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace PostService.Application.Collections;
+namespace AuthService.Application.Collections;
 
 public class PagedList<T> where T : class
 {
@@ -17,9 +17,9 @@ public class PagedList<T> where T : class
     public int PageSize { get; }
     public int TotalCount { get; }
     public bool HasNextPage => Page * PageSize < TotalCount;
-    public bool HasPreviousPage => PageSize > 1;
-
-    public static async Task<PagedList<T>> CreateAsync(IQueryable<T> query, int page, int pageSize)
+    public bool HasPreviousPage => Page > 1;
+    
+    public static async Task<PagedList<T>> GetPagedList(IQueryable<T> query, int page, int pageSize)
     {
         var totalCount = await query.CountAsync();
         var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();

@@ -1,3 +1,4 @@
+using AuthService.Application.Collections;
 using AuthService.Application.Dto;
 using AuthService.Application.Exceptions;
 using AuthService.Application.Interfaces.Auth;
@@ -34,6 +35,12 @@ public class UserService : IUserService
     public async Task<List<UserDto>> GetAllUsers(CancellationToken cancellationToken)
     {
         return _mapper.Map<List<UserDto>>(await _userRepository.GetAllAsync(cancellationToken));
+    }
+
+    public async Task<PagedList<UserDto>> GetAllUsers(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var users = _mapper.Map<List<UserDto>>(await _userRepository.GetAllAsync(cancellationToken));
+        return PagedList<UserDto>.Create(users, page, pageSize);
     }
 
     public async Task<UserDto> GetUserById(Guid id, CancellationToken cancellationToken)
