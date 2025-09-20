@@ -4,7 +4,7 @@ using AuthService.Application.Interfaces.Services;
 using AuthService.Domain.Enums;
 using AuthService.Infrastructure.Implementations.Auth;
 using AuthService.Infrastructure.Implementations.Repositories;
-using AuthService.Infrastructure.Services;
+using AuthService.Infrastructure.Implementations.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

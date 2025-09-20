@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PostService.Application.Interfaces.Repositories;
 using PostService.Application.Interfaces.Services;
 using PostService.Infrastructure.Implementations;
-using PostService.Infrastructure.Services;
+using PostService.Infrastructure.Implementations.Services;
 
 namespace PostService.Infrastructure.Extensions;
 

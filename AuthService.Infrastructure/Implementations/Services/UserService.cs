@@ -11,7 +11,7 @@ using AutoMapper;
 using MassTransit;
 using Shared.Events;
 
-namespace AuthService.Infrastructure.Services;
+namespace AuthService.Infrastructure.Implementations.Services;
 
 public class UserService : IUserService
 {
