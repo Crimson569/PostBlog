@@ -1,12 +1,13 @@
 using AuthService.Application.Primitives;
 using AutoMapper;
+using PostService.Application.Collections;
 using PostService.Application.Dto;
 using PostService.Application.Exceptions;
 using PostService.Application.Interfaces.Repositories;
 using PostService.Application.Interfaces.Services;
 using PostService.Domain.Entities;
 
-namespace PostService.Application.Services;
+namespace PostService.Infrastructure.Implementations.Services;
 
 public class PostManager : IPostManager
 {
@@ -24,6 +25,12 @@ public class PostManager : IPostManager
     public async Task<List<PostDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return _mapper.Map<List<PostDto>>(await _postRepository.GetAllAsync(cancellationToken));
+    }
+
+    public async Task<PagedList<PostDto>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var posts = _mapper.Map<List<PostDto>>(await _postRepository.GetAllAsync(cancellationToken));
+        return PagedList<PostDto>.Create(posts, page, pageSize);
     }
 
     public async Task<PostDto> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

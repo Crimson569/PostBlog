@@ -19,9 +19,9 @@ public class UserController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("users")]
-    public async Task<ActionResult> GetAllUsers(CancellationToken cancellationToken)
+    public async Task<ActionResult> GetAllUsers(int page, int pageSize, CancellationToken cancellationToken)
     {
-        return Ok(await _userService.GetAllUsers(cancellationToken));
+        return Ok(await _userService.GetAllUsers(page, pageSize, cancellationToken));
     }
 
     [Authorize]

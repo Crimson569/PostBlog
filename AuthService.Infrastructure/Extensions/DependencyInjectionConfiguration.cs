@@ -1,8 +1,10 @@
 using AuthService.Application.Interfaces.Auth;
 using AuthService.Application.Interfaces.Repositories;
+using AuthService.Application.Interfaces.Services;
 using AuthService.Domain.Enums;
 using AuthService.Infrastructure.Implementations.Auth;
 using AuthService.Infrastructure.Implementations.Repositories;
+using AuthService.Infrastructure.Implementations.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,7 @@ public static class DependencyInjectionConfiguration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
