@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PostService.Application.Collections;
 using PostService.Application.Interfaces.Repositories;
 
 namespace PostService.Infrastructure.Implementations;
@@ -17,9 +18,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbContext.Set<T>().ToListAsync(cancellationToken);
     }
 
-    public async Task<List<T>> GetPageAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<PagedList<T>> GetPageAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<T>().Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
+        IQueryable<T> query = _dbContext.Set<T>();
+
+        return await PagedList<T>.CreateAsync(query, page, pageSize);
     }
 
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
