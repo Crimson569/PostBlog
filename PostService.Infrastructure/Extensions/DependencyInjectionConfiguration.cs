@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PostService.Application.Interfaces.Repositories;
+using PostService.Application.Interfaces.Services;
 using PostService.Infrastructure.Implementations;
+using PostService.Infrastructure.Services;
 
 namespace PostService.Infrastructure.Extensions;
 
@@ -24,6 +26,7 @@ public static class DependencyInjectionConfiguration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IPostManager, PostManager>();
 
         return services;
     }

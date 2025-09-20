@@ -10,7 +10,7 @@ using AutoMapper;
 using MassTransit;
 using Shared.Events;
 
-namespace AuthService.Application.Services;
+namespace AuthService.Infrastructure.Services;
 
 public class UserService : IUserService
 {

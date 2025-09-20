@@ -6,7 +6,7 @@ using PostService.Application.Interfaces.Repositories;
 using PostService.Application.Interfaces.Services;
 using PostService.Domain.Entities;
 
-namespace PostService.Application.Services;
+namespace PostService.Infrastructure.Services;
 
 public class PostManager : IPostManager
 {
